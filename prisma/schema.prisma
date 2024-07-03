@@ -5,7 +5,57 @@ generator client {
   provider = "prisma-client-js"
 }
 
+enum Role {
+  USER
+  ADMIN
+  AGENT
+}
+
 datasource db {
-  provider = "sqlite"
+  provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+model User {
+  id             Int             @id @default(autoincrement())
+  name           String
+  email          String          @unique
+  password       String
+  age            Int
+  dob            DateTime?
+  role           Role            @default(USER)
+  preferences    Json
+  blob           Bytes
+  writtenPosts   Post[]          @relation("WrittenPosts") // one to many relationship
+  FavoritePosts  Post[]          @relation("FavoritePosts")
+  userPreference UserPreference?
+
+  @@unique([age, name])
+  @@index([email, name])
+}
+
+model UserPreference {
+  id           Int     @id @default(autoincrement())
+  emailUpdates Boolean
+  user         User    @relation(fields: [userId], references: [id])
+  userId       Int     @unique // one to one relationship
+}
+
+model Post {
+  id            Int        @id @default(autoincrement())
+  title         String
+  averateRating Float
+  createdAt     DateTime   @default(now())
+  updateAt      DateTime   @updatedAt
+  author        User       @relation("WrittenPosts", fields: [authorId], references: [id])
+  authorId      Int
+  favoritedBy   User?      @relation("FavoritePosts", fields: [favoritedById], references: [id])
+  favoritedById Int?
+  categories    Category[] // many to many relationship
+}
+
+model Category {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  posts Post[] // many to many relationship
 }
