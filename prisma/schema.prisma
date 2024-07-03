@@ -17,18 +17,19 @@ datasource db {
 }
 
 model User {
-  id             Int             @id @default(autoincrement())
-  name           String
-  email          String          @unique
-  password       String
-  age            Int
-  dob            DateTime?
-  role           Role            @default(USER)
-  preferences    Json
-  blob           Bytes
-  writtenPosts   Post[]          @relation("WrittenPosts") // one to many relationship
-  FavoritePosts  Post[]          @relation("FavoritePosts")
-  userPreference UserPreference?
+  id               Int             @id @default(autoincrement())
+  name             String
+  email            String          @unique
+  password         String
+  age              Int
+  dob              DateTime?
+  role             Role            @default(USER)
+  preferences      Json
+  blob             Bytes
+  writtenPosts     Post[]          @relation("WrittenPosts") // one to many relationship
+  FavoritePosts    Post[]          @relation("FavoritePosts")
+  userPreference   UserPreference? @relation(fields: [userPreferenceId], references: [id])
+  userPreferenceId Int?            @unique
 
   @@unique([age, name])
   @@index([email, name])
@@ -37,8 +38,7 @@ model User {
 model UserPreference {
   id           Int     @id @default(autoincrement())
   emailUpdates Boolean
-  user         User    @relation(fields: [userId], references: [id])
-  userId       Int     @unique // one to one relationship
+  user         User?
 }
 
 model Post {
