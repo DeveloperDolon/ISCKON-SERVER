@@ -4,8 +4,8 @@
   "description": "��#\u0000 \u0000I\u0000S\u0000C\u0000K\u0000O\u0000N\u0000-\u0000S\u0000E\u0000R\u0000V\u0000E\u0000R\u0000\r\u0000 \u0000",
   "main": "index.js",
   "scripts": {
-    "start:prod": "node ./dist/server.js",
-    "start:dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "start:prod": "node ./dist/app.js",
+    "start:dev": "ts-node-dev --respawn --transpile-only src/app.ts",
     "build": "tsc",
     "lint": "eslint src --ignore-path .eslintignore --ext .ts",
     "lint:fix": "npx eslint src --fix",
