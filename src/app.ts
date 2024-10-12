@@ -8,9 +8,9 @@ app.use(express.json());
 app.use(cors());
 
 app.get('/', async (req: Request, res: Response) => {
-  res.send('Kheye dibo kintu!');
+  res.send('Kheye dibo kintu! valo hoye jao.');
 });
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}.`);
 });
